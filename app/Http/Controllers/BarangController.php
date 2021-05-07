@@ -7,9 +7,18 @@ use App\Models\Barang;
 
 class BarangController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data_barang = Barang::all();
+        /// Fitur Pencarian Data Barang Berdasarkan Nama Barang
+        if($request->has('cari'))
+        {
+            $data_barang = Barang::where('nama_barang', 'LIKE' , '%'.$request->cari.'%')->get();
+        }
+        else
+        {
+            $data_barang = Barang::all();
+        }
+        
         return view('barang.index', compact(['data_barang']));
     }
 
